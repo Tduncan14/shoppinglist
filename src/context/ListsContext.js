@@ -43,7 +43,7 @@ const reducer = (state,action) => {
 
 
 const intialState = {
-    list:[],
+    lists:[],
     loading:true,
     error:''
 }
@@ -67,7 +67,7 @@ export const ListsContextProvider = ({children}) => {
 
 
        try{
-           const data = await fetch(`https://my-json-server.typicode.com/PacktPublishing/React-Projects-Edition/lists`);
+           const data = await fetch(`https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/lists`);
            const result = await data.json()
 
 
@@ -85,7 +85,11 @@ export const ListsContextProvider = ({children}) => {
 
 
     return(
-        <ListsContext.Provider value={{lists:data,loading,error}}>
+        // <ListsContext.Provider value={{lists:data,loading,error}}>
+        //     {children}
+        // </ListsContext.Provider>
+
+        <ListsContext.Provider value={{...state, fetchLists}}>
             {children}
         </ListsContext.Provider>
     )

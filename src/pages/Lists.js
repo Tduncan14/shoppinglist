@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {useContext} from 'react';
+import {useContext,useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // import useDataFetching from '../hooks/useDataFetching';
 import NavBar from '../components/NavBar/NavBar';
@@ -38,7 +38,12 @@ const Lists = () => {
   // );
 
 
-  const {loading,error,lists} = useContext(ListsContext)
+  const {loading,error,lists,fetchLists} = useContext(ListsContext);
+
+  useEffect(() => {
+
+    !lists.length && fetchLists()
+  },[fetchLists,lists])
 
   return (
     <>
