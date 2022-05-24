@@ -5,6 +5,18 @@ import useDataFetching from '../hooks/useDataFetching';
 
 
 
+
+
+
+const intialState = {
+    lists:[],
+    loading:true,
+    error:'',
+    list:{}
+
+}
+
+
 const reducer = (state,action) => {
 
     switch(action.type){
@@ -17,6 +29,16 @@ const reducer = (state,action) => {
         }
 
 
+        case 'GET_LIST_SUCCESS':{
+
+            return{
+                ...state,
+                list:action.payload,
+                loading:false
+            }
+        }
+
+
         case 'GET_LISTS_ERROR':
 
          return {
@@ -25,6 +47,19 @@ const reducer = (state,action) => {
              loading:false,
              error:action.payload
          };
+
+         case 'GET_LIST_ERROR':{
+
+
+            return{
+                ...state,
+                list:{},
+                loading:false,
+                error:action.payload
+            }
+
+            
+         }
 
 
          default:
@@ -41,13 +76,6 @@ const reducer = (state,action) => {
 }
 
 
-
-const intialState = {
-    lists:[],
-    loading:true,
-    error:''
-}
-
 export const ListsContext  = createContext();
 
 export const ListsContextProvider = ({children}) => {
@@ -59,6 +87,30 @@ export const ListsContextProvider = ({children}) => {
 
     const [state,dispatch] = useReducer(reducer,intialState);
 
+
+
+
+    const fetchList = useCallback(async (listId) => {
+
+
+        try{
+            const data = await fetch(`https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/lists/${listId}`)
+
+
+            const result = await data.json();
+
+            if(result){
+                dispatch({type:'GET_LIST_SUCCESS',payload:result})
+            }
+
+        }
+
+        catch(e){
+             dispatch({type:'GET_LIST_ERROR', payload:e.message})
+
+        }
+
+    })
 
 
 
