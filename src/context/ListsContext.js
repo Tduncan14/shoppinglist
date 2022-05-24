@@ -110,7 +110,7 @@ export const ListsContextProvider = ({children}) => {
 
         }
 
-    })
+    },[])
 
 
 
@@ -141,7 +141,7 @@ export const ListsContextProvider = ({children}) => {
         //     {children}
         // </ListsContext.Provider>
 
-        <ListsContext.Provider value={{...state, fetchLists}}>
+        <ListsContext.Provider value={{...state, fetchLists,fetchList}}>
             {children}
         </ListsContext.Provider>
     )
