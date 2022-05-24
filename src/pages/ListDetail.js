@@ -1,9 +1,10 @@
 import { useState, useEffect,useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import useDataFetching from '../hooks/useDataFetching';
+// import useDataFetching from '../hooks/useDataFetching';
 import NavBar from '../components/NavBar/NavBar';
 import ListItem from '../components/ListItem/ListItem';
+import ItemsContext from '../context/ItemsContext';
 
 const ListItemWrapper = styled.div`
   display: flex;
@@ -16,17 +17,35 @@ function ListDetail() {
   let navigate = useNavigate();
   const { listId } = useParams();
 
-  const [loading, error, data] = useDataFetching(
-    'https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/items/',
-  );
+  // const [loading, error, data] = useDataFetching(
+  //   'https://my-json-server.typicode.com/PacktPublishing/React-Projects-Second-Edition/items/',
+  // );
 
-  const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    data &&
-      listId &&
-      setItems(data.filter((item) => item.listId === parseInt(listId)));
-  }, [data, listId]);
+
+  // const [items, setItems] = useState([]);
+
+
+  const {loading,error,items,fetchItems} = useContext(ItemsContext)
+  // const {loading,error, items:data} = useContext(ItemsContext)
+
+  // useEffect(() => {
+  //   // console.log(data,'this is the data')
+  //   data &&
+  //     listId &&
+  //     setItems(data.filter((item) => item.listId === parseInt(listId)));
+  // }, [data, listId]);
+
+
+
+
+    useEffect(() =>{
+
+      console.log(listId,items.length)
+
+      listId && !items.length && fetchItems(listId)
+
+    },[fetchItems,items,listId])
 
   return (
     <>
