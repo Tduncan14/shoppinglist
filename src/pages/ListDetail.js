@@ -23,6 +23,8 @@ function ListDetail() {
   // );
 
 
+  console.log(listId,'hellow')
+
 
   // const [items, setItems] = useState([]);
 
